@@ -37,6 +37,7 @@ def login_view(request):
     next=request.GET.get('next')
     title ="Login"
     form = UserLoginForm(request.POST or None)
+
     if form.is_valid():
         username = form.cleaned_data.get("username")
         password = form.cleaned_data.get("password")
@@ -76,30 +77,7 @@ def user_profile(request, username):
     return render(request, "profile_user.html", {"user":user})
 
 @login_required(login_url="/user/login")
-def edit_profile(request,username):
-    print("Inside edit profile view")
-    user=User.objects.get(username=username)
-    return render(request, "edit_profile.html",{"user":user})
-
-@login_required(login_url="/user/login")
 def update_profile(request, username):
-    '''if request.method == 'POST':
-        print("Inside if")
-        if "cancel" in request.POST:
-            if request.user.is_staff or request.user.is_superuser:
-                return HttpResponseRedirect("/user/"+request.user.username+"/home")
-            return  HttpResponseRedirect("/user/user_profile/"+request.user.username)
-        user_form = UserForm(request.POST, instance=request.user)
-        profile_form = ProfileForm(request.POST,  request.FILES, instance=request.user.profile)
-        if user_form.is_valid() and profile_form.is_valid():
-            #img=Profile(profile_photo=request.FILES.get('profile_photo'))
-            #img.save()
-            user_form.save(commit=True)
-            profile_form.save()
-            messages.success(request, 'Your profile was successfully updated!')
-            return  HttpResponseRedirect("/user/user_profile/"+request.user.username)
-        else:
-            messages.error(request, 'Please correct the error below.')'''
     if request.method == 'POST':
         print(username)
         user=User.objects.get(username=username)
@@ -117,7 +95,7 @@ def update_profile(request, username):
             messages.success(request, 'Your profile was successfully updated!')
             return  HttpResponseRedirect("/user/user_profile/"+user.username)
         else:
-            messages.error(request, 'Please correct the error below.')            
+            messages.error(request, 'Please correct the error below.')       
     else:
         #print(request.GET)
         #print("cancel" in request.GET and request.user.is_superuser or request.user.is_staff)
@@ -125,33 +103,68 @@ def update_profile(request, username):
         if "cancel" in request.GET and (request.user.is_superuser or request.user.is_staff):    
             print("Inside get if ")
             return  HttpResponseRedirect("/user/"+request.user.username+"/home")
+
         elif "cancel" in request.GET:
             return  HttpResponseRedirect("/user/user_profile/"+request.user.username)
+
         elif "edit" in request.GET and (request.user.is_superuser or request.user.is_staff):   
             user=User.objects.get(username=username)
             user_form = UserForm(instance=user)
             profile_form = ProfileForm(instance=user.profile)
-            print("No if executed")
+            print("Inside edit if")
+            print(user.username)
+            print(request.user.username)
+            request.user.username=user.username
             return render(request, 'profile.html', {
                 'user_form': user_form,
                 'profile_form': profile_form,
 
             })    
-        
-        print("Inside else")
-        print(request.user.username)
-        user_form = UserForm(instance=request.user)
-        profile_form = ProfileForm(instance=request.user.profile)
-    print("No if executed")
-    return render(request, 'profile.html', {
-        'user_form': user_form,
-        'profile_form': profile_form,
+        else:
+            print("Inside else")
 
-    })    
+            user_form = UserForm(instance=request.user)
+            profile_form = ProfileForm(instance=request.user.profile)
+            print("No if executed")
+            print(request.user.username)
+            print(request.GET)
+            return render(request, 'profile.html', {
+                'user_form': user_form,
+                'profile_form': profile_form,
 
+            })    
+
+
+def base_view(request):
+    return render(request,'base.html')
+####################Code Need to have look into it##########################
 @login_required(login_url="/user/login")
 def user_view(request, username):
     user = User.objects.get(username=username)
     print("Inside user view")
-    return render(request, "users.html", {"user":user})
-    
+    return render(request, "profile_user.html", {"user":user})
+    #return render(request, "users.html", {"user":user})
+
+@login_required(login_url="/user/login")
+def edit_profile(request,username):
+    print("Inside edit profile view")
+    user=User.objects.get(username=username)
+    return render(request, "edit_profile.html",{"user":user})
+
+    '''if request.method == 'POST':
+        print("Inside if")
+        if "cancel" in request.POST:
+            if request.user.is_staff or request.user.is_superuser:
+                return HttpResponseRedirect("/user/"+request.user.username+"/home")
+            return  HttpResponseRedirect("/user/user_profile/"+request.user.username)
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = ProfileForm(request.POST,  request.FILES, instance=request.user.profile)
+        if user_form.is_valid() and profile_form.is_valid():
+            #img=Profile(profile_photo=request.FILES.get('profile_photo'))
+            #img.save()
+            user_form.save(commit=True)
+            profile_form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return  HttpResponseRedirect("/user/user_profile/"+request.user.username)
+        else:
+            messages.error(request, 'Please correct the error below.')'''    
