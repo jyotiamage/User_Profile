@@ -59,7 +59,7 @@ class UserForm(forms.ModelForm):
         model = User
         
         #fields = ('first_name', 'last_name', 'email', 'password', 'is_staff', 'username', 'is_superuser')
-        fields = ('first_name', 'last_name', 'email')
+        fields = ('first_name', 'last_name', 'email','username')
     widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'name': 'first_name', 'placeholder': 'First Name'}),
