@@ -64,7 +64,7 @@ def logout_view(request,username):
 
 @login_required(login_url="/user/login")
 def admin_view(request,username):
-    
+    print(username, request.user.username)
     users= User.objects.all()
     print("Insode admin view")
     return render(request, "admin.html",{"users":users})
@@ -78,8 +78,7 @@ def user_profile(request, username):
 
 @login_required(login_url="/user/login")
 def update_profile(request, username):
-    if request.method == 'POST':
-        print(username)
+    if request.method == 'POST':        
         user=User.objects.get(username=username)
         if "cancel" in request.POST:
             if user.is_staff or user.is_superuser:
@@ -87,18 +86,16 @@ def update_profile(request, username):
             return  HttpResponseRedirect("/user/user_profile/"+user.username)
         user_form = UserForm(request.POST, instance=user)
         profile_form = ProfileForm(request.POST,  request.FILES, instance=user.profile)
+        print(request.FILES)
         if user_form.is_valid() and profile_form.is_valid():
-            #img=Profile(profile_photo=request.FILES.get('profile_photo'))
-            #img.save()
+            print("Inside form valid")
             user_form.save(commit=True)
-            profile_form.save()
+            profile_form.save(commit=True)
             messages.success(request, 'Your profile was successfully updated!')
             return  HttpResponseRedirect("/user/user_profile/"+user.username)
         else:
             messages.error(request, 'Please correct the error below.')       
     else:
-        #print(request.GET)
-        #print("cancel" in request.GET and request.user.is_superuser or request.user.is_staff)
         print(username)
         if "cancel" in request.GET and (request.user.is_superuser or request.user.is_staff):    
             print("Inside get if ")
@@ -109,6 +106,11 @@ def update_profile(request, username):
 
         elif "edit" in request.GET and (request.user.is_superuser or request.user.is_staff):   
             user=User.objects.get(username=username)
+            if (user.is_staff or user.is_superuser) and user.username!=request.user.username:
+                users= User.objects.all()
+                print("Inside admin view")
+                return render(request,"error.html", {"users":users})
+
             user_form = UserForm(instance=user)
             profile_form = ProfileForm(instance=user.profile)
             print("Inside edit if")
@@ -122,12 +124,10 @@ def update_profile(request, username):
             })    
         else:
             print("Inside else")
-
             user_form = UserForm(instance=request.user)
             profile_form = ProfileForm(instance=request.user.profile)
             print("No if executed")
             print(request.user.username)
-            print(request.GET)
             return render(request, 'profile.html', {
                 'user_form': user_form,
                 'profile_form': profile_form,
@@ -137,6 +137,9 @@ def update_profile(request, username):
 
 def base_view(request):
     return render(request,'base.html')
+
+
+
 ####################Code Need to have look into it##########################
 @login_required(login_url="/user/login")
 def user_view(request, username):

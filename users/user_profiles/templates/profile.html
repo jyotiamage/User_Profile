@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="profile_container" >
-<form method="post" action="{% url 'user_profiles:edit_profile' user.username %}">
+<form method="post" action="{% url 'user_profiles:edit_profile' user.username %}" enctype="multipart/form-data">
   {% csrf_token %}
   <h2>{{user.username}}</h2>
   {{ user_form.as_p }}

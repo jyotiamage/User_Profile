@@ -1,9 +1,19 @@
 {% extends "base.html" %}
 {% if user.is_authenticated %}
- 
-{% block content %}
-  <div><h1>{{ user.username }} welcome to your profile page</h1></div>
 
+
+
+{% block title%}
+  <div><h1>{{ user.username }} welcome to your profile page</h1></div>
+{% endblock %}
+
+
+
+<div>
+{% block hello %} {% endblock %}
+</div>
+
+{% block content %}
 {% if users %}
       <div class="collapse navbar-collapse" id="myNavbar">
           <ul class="nav navbar-nav navbar-right" style="margin-right: 100px; margin-left: 1000px; list-style-type: none;">
