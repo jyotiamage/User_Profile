@@ -15,10 +15,12 @@
   <div><h1>{{ user.username }} welcome to your profile page</h1></div>
         <form method="get" action="{% url 'user_profiles:edit_profile' user.username %}">
               {% csrf_token %}
-        {% if user.userprofile.image %}
-            <img src="{{ user.profile.profile_photo.url }}" width="240">
-        {% endif %}              
-        <!--<img src="{{ user.profile.profile_photo }}" width = "150" height = "150"  /> -->
+        <!--{% if user.userprofile.image %}
+            <img src="{{ user.profile.profile_photo.url}}" width="240">
+        {% endif %}       -->
+        {% if user.profile.profile_photo %}
+        <img src="{{ user.profile.profile_photo.url }}" width = "150" height = "150"  />
+        {%endif%}
         <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>
         <h2>Email:  {{user.email}}</h2>
         <h2>Bio:  {{user.profile.bio}}</h2>
