@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="profile_container" >
+<form method="post" action="{% url 'user_profiles:edit_profile' user.username %}">
+  {% csrf_token %}
+  First Name <input type="text" name="fname" value="{{user.first_name}}">
+  Last Name <input type="text" name="fname" value="{{user.last_name}}">
+  Email <input type="text" name="email" value="{{user.email}}">
+  Username <input type="text" name="email" value="{{user.username}}">
+  
+  <button type="submit" class="button">Save changes</button>
+  <button type="submit" class="button" name="cancel">Cancel</button>
+</form>
+</div>
+{% endblock %}

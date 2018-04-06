@@ -1,0 +1,20 @@
+
+{% block content %}
+<div class='signup-container'>
+<h1>{{title}}</h1>
+
+
+<form method='POST' action=''>
+    {% csrf_token %}
+    {{form.as_p}}
+    
+    <input type="submit" value="{{title}}" class="signupbtn" />
+    <input type="button" value="Cancel"  class="cancelbtn"/>
+    
+    <br/>
+
+    
+
+</form>
+</div>
+{% endblock content %}
