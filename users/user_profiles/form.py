@@ -39,7 +39,8 @@ class UserLoginForm(forms.Form):
 		username= self.cleaned_data.get("username")
 		password= self.cleaned_data.get("password")
 
-		
+		print(username)
+		print(password)
 		if username and password:
 			user= authenticate(username=username,password=password)
 			if not user:
@@ -53,13 +54,23 @@ class UserLoginForm(forms.Form):
 
 		return super(UserLoginForm, self).clean(*args, **kwargs)
 
+class ChangePasswordForm(forms.Form):
+	password1 = forms.CharField(label="New Password", widget=forms.PasswordInput())
+	password2 = forms.CharField(label="New Password (Again)", widget=forms.PasswordInput())
+	def clean_password2(self):
+		if 'password1' in self.cleaned_data:
+			password1 = self.cleaned_data['password1']
+			password2 = self.cleaned_data['password2']
+			if password1 == password2:
+				return password2
+			raise forms.ValidationError('Passwords do not match')
 
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
         
         #fields = ('first_name', 'last_name', 'email', 'password', 'is_staff', 'username', 'is_superuser')
-        fields = ('first_name', 'last_name', 'email','username')
+        fields = ('first_name', 'last_name', 'email','username', 'password')
     widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'name': 'first_name', 'placeholder': 'First Name'}),

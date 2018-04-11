@@ -2,6 +2,7 @@
 
 
 {% block content %}
+
 <div class='container'>
 <h1>{{title}}</h1>
 <br/>
@@ -12,9 +13,16 @@
     <br/>
     <br/>
 	<input type="submit" value="{{title}}" class="signupbtn" />
-    <input type="submit" value="Register"  class="cancelbtn" name="register"/>
-  
-
 </form>
+<br/>
+<br/>
+
+<br/>
+<br/>
+
+<div class="collapse navbar-collapse" id="myNavbar">
+        <a href="{% url 'user_profiles:signup'  %}"><span class="glyphicon glyphicon-log-in"></span> signup</a>
+      
+    </div>
 </div>
 {% endblock content %}

@@ -11,6 +11,7 @@ urlpatterns = [
 
 	url(r'^login/$', views.login_view, name='login'),
 	url(r'^signup/$', views.signup_view, name='signup'),
+	url(r'^user_profile/(?P<username>[a-zA-Z0-9]+)/change_password$', views.changePassword_view, name='change_password'),
 	url(r'^user_profile/(?P<username>[a-zA-Z0-9]+)/logout$', views.logout_view, name='logout'),
 	
 	url(r'^edit_profile/(?P<username>[a-zA-Z0-9]+)$', views.update_profile, name='edit_profile'),
