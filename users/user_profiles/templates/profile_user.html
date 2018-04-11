@@ -2,22 +2,25 @@
   
   
 {% block content %}
+
+
  <div class="collapse navbar-collapse" id="myNavbar">
 
-      <ul class="nav navbar-nav navbar-right" style="margin-right: 100px; margin-left: 1000px; list-style-type: none;">
-        <li style="float:right"><a href="{% url 'user_profiles:logout' user.username %}">
-        <span class="glyphicon glyphicon-log-in" >
-          
-        </span> Logout</a></li>
+      <ul class="nav navbar-nav navbar-right" style="margin-right: 50px; margin-left: 600px; list-style-type: none;">
+
+        
+        <li style="float:right; margin-left: 20px"><a href="{% url 'user_profiles:logout' user.username %}">logout</a>
+        </li>
+         <li style="float:right; margin-left: 20px">
+            <a href="{% url 'user_profiles:change_password' user.username %}">Change password </a>
+         </li>
+
       </ul>
     </div>
 
   <div><h1>{{ user.username }} welcome to your profile page</h1></div>
         <form method="get" action="{% url 'user_profiles:edit_profile' user.username %}">
-              {% csrf_token %}
-        <!--{% if user.userprofile.image %}
-            <img src="{{ user.profile.profile_photo.url}}" width="240">
-        {% endif %}       -->
+        {% csrf_token %}
         {% if user.profile.profile_photo %}
         <img src="{{ user.profile.profile_photo.url }}" width = "150" height = "150"  />
         {%endif%}

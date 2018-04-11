@@ -4,25 +4,22 @@ from django.urls import reverse
 from django.views import generic
 from django.contrib.auth import authenticate, get_user_model,logout
 from django.contrib.auth import login as dj_login
-from .form import UserLoginForm, SignUpForm, UserForm, ProfileForm
+from .form import UserLoginForm, SignUpForm, UserForm, ProfileForm, ChangePasswordForm
 from django.contrib.auth.models import User
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile
+from django.contrib.auth import update_session_auth_hash
 #from django.core.mail import send_mail, BadHeaderError
 # Create your views here.
 
 def signup_view(request):
     title="Signup"
-    print(title)
     print(request.method)
     if request.method == 'POST':
-        print(request.method)
-        print(request.POST)
         form = SignUpForm(data=request.POST)   
         print(form.is_valid())      
         if form.is_valid():
-            print("Inside Form")
             user = User.objects.create_user(username = form.cleaned_data.get('username'),
             password = form.cleaned_data.get('password1'), email=form.cleaned_data.get('email'))
             user.save()
@@ -58,9 +55,38 @@ def login_view(request):
         print(request.user.is_authenticated)
     return render(request,"login.html",{"form":form,"title":title})
 
+@login_required(login_url="/user/login")
 def logout_view(request,username):
     logout(request)
     return HttpResponseRedirect("/user/login")
+
+@login_required(login_url="/user/login")
+def changePassword_view(request, username):
+    print("Inside view")
+    title="Change Password"
+    print(request.POST)
+    if request.method == 'POST':
+        form = ChangePasswordForm(data=request.POST)
+        if form.is_valid():
+            user=User.objects.get(username=username)
+            print("Inside password check ")
+            user.set_password(form.cleaned_data['password1'])
+            user.save()
+            update_session_auth_hash(request, user)  # Important!
+            messages.success(request, 'Your password was successfully updated!')
+            return HttpResponseRedirect("/user/user_profile/"+request.user.username)
+        else:
+            messages.error(request, 'Please correct the error below.')
+    else:
+        print("Inside else")
+        print(request.GET)
+        if "cancel" in request.GET:
+            return HttpResponseRedirect("/user/user_profile/"+request.user.username)
+        form = ChangePasswordForm()
+    return render(request, 'change_password.html', {
+        'form': form,'title':title  
+    })
+    
 
 @login_required(login_url="/user/login")
 def admin_view(request,username):
@@ -113,9 +139,6 @@ def update_profile(request, username):
 
             user_form = UserForm(instance=user)
             profile_form = ProfileForm(instance=user.profile)
-            print("Inside edit if")
-            print(user.username)
-            print(request.user.username)
             request.user.username=user.username
             return render(request, 'profile.html', {
                 'user_form': user_form,
