@@ -3,8 +3,6 @@ h1{
 }
 
 .container{
-	
-	
 	margin-left: 30px;
 	padding: 20px;
 	margin: 10px;
@@ -40,7 +38,9 @@ input[type=text]:focus, input[type=password]:focus {
     padding: 14px 20px;
     background-color:#4CAF50;
     width: 17%;
-    opacity: 0.5
+    opacity: 0.5;
+		border-radius: 5px;
+		font-weight: bold;
 }
 
 .signupbtn:hover {
@@ -69,59 +69,33 @@ input[type=text]:focus, input[type=password]:focus {
       margin-bottom: 0;
       border-radius: 0;
     }
-    
+
     /* Set height of the grid so .sidenav can be 100% (adjust as needed) */
     .row.content {height: 450px}
-    
+
     /* Set gray background color and 100% height */
     .sidenav {
       padding-top: 20px;
       background-color: #f1f1f1;
       height: 100%;
     }
-    
+
     /* Set black background color, white text and some padding */
     footer {
       background-color: #555;
       color: white;
       padding: 15px;
     }
-    
+
     /* On small screens, set height to 'auto' for sidenav and grid */
     @media screen and (max-width: 767px) {
       .sidenav {
         height: auto;
         padding: 15px;
       }
-      .row.content {height:auto;} 
-}
-/*ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
+      .row.content {height:auto;}
 }
 
-li {
-    float: left;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-    background-color: #111;
-}
-
-.active {
-    background-color: #4CAF50;
-}*/
 .myul {
 	list-style-type: none;
     margin: 0;
@@ -131,4 +105,25 @@ li a:hover:not(.active) {
 }
 li a:hover{
     background-color: grey;
-}	
+}
+.my_button {
+    display: block;
+    width: 17%;
+    height: 25px;
+    background: #4E9CAF;
+		background: #2B7CAD;
+    padding: 10px;
+    text-align: center;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+		margin-left: 230px;
+		opacity: 0.5;
+}
+.my_button:hover{
+	opacity: 1
+}
+
+a {
+    text-decoration: none !important;
+}

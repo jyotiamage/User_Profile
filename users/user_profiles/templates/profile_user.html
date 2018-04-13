@@ -1,6 +1,6 @@
 {% extends "base.html" %}
-  
-  
+
+
 {% block content %}
 
 
@@ -8,7 +8,7 @@
 
       <ul class="nav navbar-nav navbar-right" style="margin-right: 50px; margin-left: 600px; list-style-type: none;">
 
-        
+
         <li style="float:right; margin-left: 20px"><a href="{% url 'user_profiles:logout' user.username %}">logout</a>
         </li>
          <li style="float:right; margin-left: 20px">
@@ -27,19 +27,17 @@
         <h2>Name: {{ user.first_name }} {{ user.last_name }}</h2>
         <h2>Email:  {{user.email}}</h2>
         <h2>Bio:  {{user.profile.bio}}</h2>
-        
         <h2>Designation: {{user.profile.designation}}</h2>
         <h2>Work: {{user.profile.work_experience}}</h2>
         <h2>Education: {{user.profile.education}}</h2>
-        <h2>Education: {{user.username}}</h2>
+        <h2>Username: {{user.username}}</h2>
         <h2>Is_staff: {{user.is_staff}}</h2>
         <h2>Is_super: {{user.is_superuser}}</h2>
-        
+
         <button type="submit" class="signupbtn" name="edit">Edit Profile</button>
-        
+
         <button type="submit" class="cancelbtn" name="cancel">Cancel</button>
-        
-        
+
+
         </form>
 {% endblock content %}
-

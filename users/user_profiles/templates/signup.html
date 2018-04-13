@@ -8,14 +8,10 @@
 <form method='POST' action=''>
     {% csrf_token %}
     {{form.as_p}}
-    
+
     <input type="submit" value="{{title}}" class="signupbtn" />
-    <input type="button" value="Cancel"  class="cancelbtn"/>
-    
+    <a class="my_button" href="{% url 'user_profiles:login'  %}">Cancel</a>
     <br/>
-
-    
-
 </form>
 </div>
 {% endblock content %}

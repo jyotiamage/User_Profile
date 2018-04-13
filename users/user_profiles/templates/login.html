@@ -13,16 +13,9 @@
     <br/>
     <br/>
 	<input type="submit" value="{{title}}" class="signupbtn" />
+  <a class="my_button" href="{% url 'user_profiles:signup'  %}">Create an Account</a>
+
 </form>
-<br/>
-<br/>
 
-<br/>
-<br/>
-
-<div class="collapse navbar-collapse" id="myNavbar">
-        <a href="{% url 'user_profiles:signup'  %}"><span class="glyphicon glyphicon-log-in"></span> signup</a>
-      
-    </div>
 </div>
 {% endblock content %}
