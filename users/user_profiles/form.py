@@ -12,7 +12,8 @@ class SignUpForm(forms.Form):
 	email= forms.EmailField(label="Email", max_length=254, help_text='Requird. Inform a valid email')
 	password1 = forms.CharField(label="Password", widget=forms.PasswordInput())
 	password2 = forms.CharField(label="Password (Again)", widget=forms.PasswordInput())
-
+	is_superuser = forms.BooleanField(label="Is SuperUser?", initial=False, required=False)
+	is_staff = forms.BooleanField(label="Is Staff?", initial=False, required=False)
 	def clean_password2(self):
 		if 'password1' in self.cleaned_data:
 			password1 = self.cleaned_data['password1']
@@ -32,15 +33,13 @@ class SignUpForm(forms.Form):
 		raise forms.ValidationError('Username is already taken.')
 
 class UserLoginForm(forms.Form):
-	username = forms.CharField(label="UserName")
+	username = forms.CharField(label="Username")
 	password = forms.CharField(label="Password", widget=forms.PasswordInput)
 
 	def clean(self, *args,**kwargs):
 		username= self.cleaned_data.get("username")
 		password= self.cleaned_data.get("password")
 
-		print(username)
-		print(password)
 		if username and password:
 			user= authenticate(username=username,password=password)
 			if not user:
@@ -50,7 +49,7 @@ class UserLoginForm(forms.Form):
 				raise forms.ValidationError("Incorrect password")
 
 			if not user.is_active:
-				raise forms.ValidationError("User is no longer active")			
+				raise forms.ValidationError("User is no longer active")
 
 		return super(UserLoginForm, self).clean(*args, **kwargs)
 
@@ -68,9 +67,8 @@ class ChangePasswordForm(forms.Form):
 class UserForm(forms.ModelForm):
     class Meta:
         model = User
-        
-        #fields = ('first_name', 'last_name', 'email', 'password', 'is_staff', 'username', 'is_superuser')
-        fields = ('first_name', 'last_name', 'email','username', 'password')
+        fields = ('first_name', 'last_name', 'email','username', 'password','is_staff','is_superuser')
+
     widgets = {
             'password': forms.PasswordInput(attrs={'class': 'form-control', 'name': 'password'}),
             'first_name': forms.TextInput(attrs={'class': 'form-control', 'name': 'first_name', 'placeholder': 'First Name'}),
@@ -81,8 +79,8 @@ class UserForm(forms.ModelForm):
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        
         fields = ('bio', 'location', 'birth_date', 'profile_photo', 'designation','work_experience', 'education')
+
     widgets = {
     		'profile_photo': forms.FileInput(attrs={'class':'form-control', 'name':'photo'})
         }
